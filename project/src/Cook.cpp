@@ -26,3 +26,61 @@ void Cook::prepare_dish(
   // queue order
 
 }
+
+recipes = {
+            {"Fries", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"Burger", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"DoubleBurger", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"IceCreamCone", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"SmallDrink", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"MediumDrink", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"LargeDrink", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"Salad", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"#1", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"#2", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+            {"#3", {
+                        {"Potato", 1},
+                        {"CanolaOil", 1}
+                      }
+            },
+          }
