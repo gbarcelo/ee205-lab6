@@ -6,23 +6,105 @@ Cook::Cook(SupplyRunner& runner_, Kitchen& kitchen_):
 
 void Cook::prepare_dish(
         std::stack<Order>& orders,
-        std::queue<std::pair<std::size_t,
-        Dish>>& finished_dishes){
-  // pop order
-  Order o = orders.pop();
-  // read order
-  std::vector<std::string> orderIngreds = o.get_items();
-  // from recipes, get order ingredients
-
+        std::queue<std::pair<std::size_t, Dish>>& finished_dishes){
+  Order *o;
+  std::string dishName;
+  IngredientMap orderIngreds;
   std::vector<Ingredient> runnersBag;
-  // supplyrunner get ingredients
-  runnersBag = runner.get_ingredients(
-  // (try/catch here?)
+  Dish dish;
 
-  // some vector<ingredients> to IngredientMap conversion here
-
-  // kitchen order
-  Dish dish = kitchen.prepare_dish(runnersBag)
-  // queue order
-
+  // for i = 0; while i < orders.size(); i++
+  for(unsigned int i=0; i<orders.size(); ++i){
+    // take top order ( table # and vector of dish names (strings))
+    o = &(orders.top());
+    // for each dishName in order for table #i
+    for(auto j = (*o).get_items().begin(); j != (*o).get_items().end(); ++j){
+      // read dish name
+      dishName = *j;
+      // search recipe book for dishName
+      auto dishCheck = recipes.find(dishName);
+      if (dishCheck==recipes.end()){throw "No recipe for dish";}
+      // get ingredients of dish from recipebook
+      orderIngreds = recipes.find(dishName)->second;
+      // supplyrunner get ingredients
+      runnersBag = runner.get_ingredients(orderIngreds);
+      // cook goes into kitchen with retrieved ingredients and makes dish
+      dish = kitchen.prepare_dish(std::move(orderIngreds));
+      // cook takes finished dish and puts it in queue
+      finished_dishes.push(std::pair<std::size_t,Dish>(i,dish));
+    }
+    // remove top order from stack
+    orders.pop();
+  }
 }
+
+RecipeBook recipes = {
+            {"Fries",{
+              {"Potato",1},
+              {"CanolaOil",1}
+            }
+          },{"Burger",{
+              {"WheatBun", 2},
+              {"BeefPatty", 1},
+              {"Cheese", 1},
+              {"Lettuce", 1},
+              {"Tomato", 1}
+            }
+          },{"DoubleBurger",{
+              {"WheatBun", 3},
+              {"BeefPatty", 2},
+              {"Cheese", 2},
+              {"Lettuce", 3},
+              {"Tomato", 1}
+            }
+          },{"IceCreamCone",{
+              {"SugarCone", 1},
+              {"VanillaCream", 1}
+            }
+          },{"SmallDrink",{
+              {"SmallCup", 1}
+            }
+          },{"MediumDrink",{
+              {"MediumCup", 1}
+            }
+          },{"LargeDrink",{
+              {"LargeCup", 1}
+            }
+          },{"Salad",{
+              {"Lettuce", 1},
+              {"Tomato", 1},
+              {"SaladDressing", 1},
+              {"Fork", 1}
+            }
+          },{"#1",{
+              {"MediumCup", 1},
+              {"Potato", 1},
+              {"CanolaOil", 1},
+              {"WheatBun", 2},
+              {"BeefPatty", 1},
+              {"Cheese", 1},
+              {"Lettuce", 1},
+              {"Tomato", 1}
+            }
+          },{"#2",{
+              {"MediumCup", 1},
+              {"Potato", 1},
+              {"CanolaOil", 1},
+              {"WheatBun", 3},
+              {"BeefPatty", 2},
+              {"Cheese", 2},
+              {"Lettuce", 3},
+              {"Tomato", 1}
+            }
+          },{"#3",{
+              {"MediumCup", 1},
+              {"Potato", 1},
+              {"CanolaOil", 1},
+              {"WheatBun", 4},
+              {"BeefPatty", 2},
+              {"Cheese", 2},
+              {"Lettuce", 2},
+              {"Tomato", 2}
+            }
+          },
+};
