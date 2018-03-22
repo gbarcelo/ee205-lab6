@@ -18,12 +18,9 @@ void Cook::prepare_dish(
     // take top order ( table # and vector of dish names (strings))
     o = &(orders.top());
     // for each dishName in order for table #i
-    for(auto j = (*o).get_items().begin(); j != (*o).get_items().end(); ++j){
+    for(unsigned int j=0; j < (*o).get_items().size(); ++j){
       // read dish name
-      dishName = *j;
-      // search recipe book for dishName
-      auto dishCheck = recipes.find(dishName);
-      if (dishCheck==recipes.end()){throw "No recipe for dish";}
+      dishName = (*o).get_items()[j];
       // get ingredients of dish from recipebook
       orderIngreds = recipes.find(dishName)->second;
       // supplyrunner get ingredients
@@ -31,7 +28,7 @@ void Cook::prepare_dish(
       // cook goes into kitchen with retrieved ingredients and makes dish
       dish = kitchen.prepare_dish(std::move(orderIngreds));
       // cook takes finished dish and puts it in queue
-      finished_dishes.push(std::pair<std::size_t,Dish>(i,dish));
+      finished_dishes.push(std::pair<std::size_t,Dish>(o->get_id(),dish));
     }
     // remove top order from stack
     orders.pop();
